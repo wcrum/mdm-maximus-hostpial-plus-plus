@@ -170,8 +170,8 @@ def main():
             return f'background-color: {color}; color: white'
         
         st.dataframe(
-            display_df.style.applymap(color_risk, subset=['Risk Level']),
-            use_container_width=True
+            display_df.style.map(color_risk, subset=['Risk Level']),
+            width='stretch'
         )
         
         st.markdown("---")
@@ -186,10 +186,10 @@ def main():
                 values=risk_counts.values, 
                 names=risk_counts.index,
                 color=risk_counts.index,
-                color_map={'LOW': '#28a745', 'MEDIUM': '#ffc107', 'HIGH': '#dc3545'},
+                color_discrete_map={'LOW': '#28a745', 'MEDIUM': '#ffc107', 'HIGH': '#dc3545'},
                 title="Nodes by Risk Level"
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         
         with col2:
             st.subheader("⏱️ Time to Failure Distribution")
@@ -201,7 +201,7 @@ def main():
                 color_discrete_sequence=['#3b82f6']
             )
             fig.update_layout(xaxis_title="Hours", yaxis_title="Count")
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
     
     # ==================== NODE DETAILS SECTION ====================
     elif menu == "Node Details":
@@ -322,7 +322,7 @@ def main():
                 yaxis_title="Contribution",
                 showlegend=False,
             )
-            st.plotly_chart(wf_fig, use_container_width=True)
+            st.plotly_chart(wf_fig, width='stretch')
             
             # Top features bar chart
             st.subheader("📊 Top Feature Contributions (SHAP Values)")
@@ -339,7 +339,7 @@ def main():
                 color_continuous_scale='RdBu_r'
             )
             fig.update_layout(yaxis={'categoryorder': 'total ascending'})
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
             
             st.markdown("---")
             
@@ -351,7 +351,7 @@ def main():
             feature_display['SHAP Value'] = feature_display['SHAP Value'].apply(lambda x: f"{x:.4f}")
             feature_display['Value'] = feature_display['Value'].apply(lambda x: f"{x:.4f}" if isinstance(x, float) else x)
             
-            st.dataframe(feature_display, use_container_width=True)
+            st.dataframe(feature_display, width='stretch')
             
             st.markdown("---")
             
@@ -370,7 +370,7 @@ def main():
                 color_continuous_scale='Viridis'
             )
             fig.update_layout(yaxis={'categoryorder': 'total ascending'})
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
     
     # ==================== RECOMMENDATIONS SECTION ====================
     elif menu == "Recommendations":
@@ -460,7 +460,7 @@ def main():
         with col2:
             st.write("Actions by Node:")
             node_actions = rec_df.groupby('Node')['Action'].count()
-            st.dataframe(node_actions, use_container_width=True)
+            st.dataframe(node_actions, width='stretch')
     
     # ==================== SCENARIO SIMULATION SECTION ====================
     elif menu == "Scenario Simulation":
@@ -547,7 +547,7 @@ def main():
             barmode='group'
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         
         st.markdown("---")
         
@@ -580,7 +580,7 @@ def main():
         node_comparison_display['Original Risk'] = node_comparison_display['Original Risk'].apply(lambda x: f"{x:.1%}")
         node_comparison_display['Simulated Risk'] = node_comparison_display['Simulated Risk'].apply(lambda x: f"{x:.1%}")
         
-        st.dataframe(node_comparison_display, use_container_width=True)
+        st.dataframe(node_comparison_display, width='stretch')
         
         st.markdown("---")
         
